@@ -9,13 +9,13 @@
 Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI** installers using Microsoft's **IntuneWinAppUtil.exe** with a clean UI and enhanced user experience.
 ---
 
-# 🖥️ Interface Preview
+## 🖥️ Interface Preview
 ![Screenshot](Screenshot.png)
 
 
 ---
 
-# 🚀 Features
+## 🚀 Features
 
 ## Core Packaging
 - Convert EXE/MSI → `.intunewin`
@@ -24,7 +24,7 @@ Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI*
 - Real-time Message Center logs
 - Accurate output file name + size display
 
-## Smart User Experience
+### Smart User Experience
 - Auto-detect installer inside Source folder
 - If multiple installers exist:
   - selects first automatically
@@ -35,14 +35,14 @@ Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI*
   - Output package size
 - Prevents running multiple packaging jobs simultaneously
 
-## Validation Engine
+### Validation Engine
 - Source folder must exist
 - Installer must be inside source folder
 - Supports only `.exe` or `.msi`
 - Output folder auto-created if missing
 - Detects missing `IntuneWinAppUtil.exe`
 
-## Logging System
+### Logging System
 Log file stored automatically:
 
 ```
@@ -51,7 +51,7 @@ C:\IntuneWinUtility\
 
 ---
 
-# 📁 Default Working Structure
+## 📁 Default Working Structure
 
 Automatically created on first run:
 
@@ -66,7 +66,7 @@ C:\IntuneWinUtility
 
 ---
 
-# ▶️ How to Use (EXE Version)
+## ▶️ How to Use (EXE Version)
 
 ## Run directly
 Just double-click:
@@ -79,7 +79,7 @@ IntuneWin App Utility.exe
 
 No PowerShell window required.
 
-## Steps
+### Steps
 1. Select **Source Folder**
 2. Tool auto-detects EXE/MSI
 3. Choose output mode:
@@ -89,7 +89,7 @@ No PowerShell window required.
 
 ---
 
-# 🧠 Auto Detection Behavior
+## 🧠 Auto Detection Behavior
 
 When selecting Source Folder:
 - Tool searches for `.exe` or `.msi`
@@ -102,7 +102,7 @@ When selecting Source Folder:
 
 ---
 
-# 📦 Output Result
+## 📦 Output Result
 
 After packaging:
 - Shows output file name
@@ -119,11 +119,11 @@ AppName.intunewin (45.3 MB)
 
 ---
 
-# 📜 License
+## 📜 License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ---
 
-# ⚠️  Disclaimer
+## ⚠️  Disclaimer
 These scripts are provided as-is. Test them in a staging environment before applying them to production. The author is not responsible for any unintended outcomes resulting from their use.
 
