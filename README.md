@@ -124,6 +124,6 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 ---
 
-# 📜  Disclaimer
+# ⚠️  Disclaimer
 These scripts are provided as-is. Test them in a staging environment before applying them to production. The author is not responsible for any unintended outcomes resulting from their use.
 
