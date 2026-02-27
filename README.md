@@ -117,6 +117,13 @@ AppName.intunewin (45.3 MB)
 
 ````
 
+## ☕ Donate
+
+If you find this project helpful, consider supporting it by  
+[buying me a coffee](https://www.buymeacoffee.com/mabdulkadrx).
+
+---
+
 ---
 
 ## 📜 License
