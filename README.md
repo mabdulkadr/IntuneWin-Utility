@@ -1,4 +1,4 @@
-
+8
 # 📦 IntuneWin Utility
 
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue.svg)
@@ -116,13 +116,12 @@ Example output:
 AppName.intunewin (45.3 MB)
 
 ````
+---
 
 ## ☕ Donate
 
 If you find this project helpful, consider supporting it by  
 [buying me a coffee](https://www.buymeacoffee.com/mabdulkadrx).
-
----
 
 ---
 
