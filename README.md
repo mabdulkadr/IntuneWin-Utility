@@ -128,10 +128,28 @@ If you find this project helpful, consider supporting it by
 ---
 
 ## 📜 License
+
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ---
 
-## ⚠️  Disclaimer
+## 👤 Author
+
+**Mohammad Abdulkader Omar**  
+Website: https://momar.tech  
+Version: **1.1**
+
+---
+
+## ☕ Support
+
+If this project helps you, consider supporting it:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-☕-FFDD00?style=for-the-badge)](https://www.buymeacoffee.com/mabdulkadrx)
+
+---
+
+## ⚠ Disclaimer
+
 These scripts are provided as-is. Test them in a staging environment before applying them to production. The author is not responsible for any unintended outcomes resulting from their use.
 
