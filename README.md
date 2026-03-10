@@ -137,7 +137,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 **Mohammad Abdulkader Omar**  
 Website: https://momar.tech  
-Version: **1.1**
+Version: **1.0**
 
 ---
 
