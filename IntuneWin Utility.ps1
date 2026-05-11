@@ -1,6 +1,6 @@
 <#!
 .SYNOPSIS
-    IntuneWin Application Utility (Enhanced) - GUI tool to create .intunewin packages from EXE/MSI installers.
+    IntuneWin Application Utility - GUI tool to create .intunewin packages from EXE/MSI/PS1/BAT installers.
 
 .DESCRIPTION
     - Modern WPF GUI (card-based) similar to your Cisco Secure Client Assistant layout
@@ -10,12 +10,17 @@
     - Validations: source folder, setup file must exist and be inside source, output path
     - Computes source folder size and shows package name
     - Default working root: %SystemDrive%\IntuneWinUtility\Source and \Output
-
+ 
+    [ Change Log ]
+    - Added support for packaging .ps1 and .bat scripts.
+    - Updated file dialog filters and auto-detection logic.
+    - Enhanced validation to accept the new extensions.
+    
 .NOTES
     Author  : Mohammad Abdelkader
     Website : https://momar.tech
     Date    : 2026-02-10
-    Version : 2.0
+    Version : 1.1
 #>
 
 [CmdletBinding()]
@@ -197,7 +202,7 @@ function Get-InstallerCandidates {
   if (-not (Test-Path $Folder)) { return @() }
   try {
     return Get-ChildItem -LiteralPath $Folder -File -ErrorAction SilentlyContinue |
-      Where-Object { $_.Extension -match '^\.(exe|msi)$' } |
+      Where-Object { $_.Extension -match '^\.(exe|msi|ps1|bat)$' } |
       Sort-Object Name
   } catch { return @() }
 }
@@ -229,7 +234,7 @@ function Auto-Detect-SourceFile {
   } else {
     $script:SetupFilePath = $null
     if ($SetupFileTxt) { $SetupFileTxt.Text = "" }
-    if ($Log) { Write-Log "No installer (.exe/.msi) found in source folder." "WARNING" }
+    if ($Log) { Write-Log "No installer (.exe/.msi/.ps1/.bat) found in source folder." "WARNING" }
   }
 }
 
@@ -344,7 +349,7 @@ $xamlText = @'
         <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="14" Background="{StaticResource CardBg}">
           <StackPanel>
             <TextBlock Text="IntuneWin App Utility" FontSize="13" FontWeight="Bold" Foreground="#1F2D3A"/>
-            <TextBlock Text="Version 1.0" FontSize="11" Foreground="#5F6B7A" Margin="0,4,0,0"/>
+            <TextBlock Text="Version 1.1" FontSize="11" Foreground="#5F6B7A" Margin="0,4,0,0"/>
             <TextBlock FontSize="11" Foreground="#7C8BA1" Margin="0,8,0,0">
               <Run Text="© 2025 "/>
               <Hyperlink x:Name="FooterLink" NavigateUri="https://www.linkedin.com/in/mabdulkadr/">Mohammad Omar</Hyperlink>
@@ -400,7 +405,7 @@ $xamlText = @'
               <StackPanel>
                 <TextBlock Text="About this tool" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Title}" Margin="0,0,0,6"/>
                 <TextBlock TextWrapping="Wrap" Foreground="#475467" FontSize="12"
-                           Text="Create Intune Win32 packages (.intunewin) from EXE/MSI with validations and live logs."/>
+                           Text="Create Intune Win32 packages (.intunewin) from EXE/MSI/PS1/BAT files with validations and live logs."/>
               </StackPanel>
             </Border>
           </StackPanel>
@@ -425,7 +430,7 @@ $xamlText = @'
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
             <TextBlock Text="Welcome" FontSize="20" FontWeight="Bold" Foreground="{StaticResource Title}"/>
-            <TextBlock Text="Package EXE/MSI into IntuneWin with a few clicks"
+            <TextBlock Text="Package EXE/MSI/PS1/BAT files into IntuneWin with a few clicks"
                        FontSize="14" Foreground="{StaticResource Muted}" Margin="0,6,0,0"/>
           </StackPanel>
         </Grid>
@@ -708,7 +713,7 @@ function Validate-Inputs {
   if (-not $setup -or -not (Test-Path $setup)) { Write-Log "Setup file is invalid or not found." "ERROR"; return $null }
 
   $ext = [System.IO.Path]::GetExtension($setup).ToLower()
-  if ($ext -ne '.exe' -and $ext -ne '.msi') { Write-Log "Setup file must be .exe or .msi" "ERROR"; return $null }
+  if ($ext -ne '.exe' -and $ext -ne '.msi' -and $ext -ne '.ps1' -and $ext -ne '.bat') { Write-Log "Setup file must be .exe, .msi, .ps1, or .bat"; return $null }
 
   if (-not (Is-ChildPath -Parent $src -Child $setup)) {
     Write-Log "Setup file must be inside the selected Source folder." "ERROR"
@@ -849,7 +854,7 @@ $SetupFileBtn.Add_Click({
 
   $dlg = New-Object System.Windows.Forms.OpenFileDialog
   $dlg.InitialDirectory = $src
-  $dlg.Filter = "Installer (*.exe;*.msi)|*.exe;*.msi|All files (*.*)|*.*"
+  $dlg.Filter = "Installer (*.exe;*.msi;*.ps1;*.bat)|*.exe;*.msi;*.ps1;*.bat|All files (*.*)|*.*"
   $dlg.Multiselect = $false
   if ($dlg.ShowDialog() -eq "OK") {
     $script:SetupFilePath = $dlg.FileName

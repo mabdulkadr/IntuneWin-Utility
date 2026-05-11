@@ -8,7 +8,7 @@
 
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-☕-FFDD00?style=for-the-badge)](https://www.buymeacoffee.com/mabdulkadrx)
 
-Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI** installers using Microsoft's **IntuneWinAppUtil.exe** with a clean UI and enhanced user experience.
+Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI/PS1/BAT** installers using Microsoft's **IntuneWinAppUtil.exe** with a clean UI and enhanced user experience.
 ---
 
 ## 🖥️ Interface Preview
@@ -20,7 +20,7 @@ Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI*
 ## 🚀 Features
 
 ## Core Packaging
-- Convert EXE/MSI → `.intunewin`
+- Convert EXE/MSI/PS1/BAT → `.intunewin`
 - Uses official Microsoft **IntuneWinAppUtil**
 - Async packaging (no UI freeze)
 - Real-time Message Center logs
@@ -40,7 +40,7 @@ Modern GUI tool to create **Intune Win32 packages (.intunewin)** from **EXE/MSI*
 ### Validation Engine
 - Source folder must exist
 - Installer must be inside source folder
-- Supports only `.exe` or `.msi`
+- Supports only `.exe` , `.msi` , `.ps1` or `.bat`
 - Output folder auto-created if missing
 - Detects missing `IntuneWinAppUtil.exe`
 
@@ -83,7 +83,7 @@ No PowerShell window required.
 
 ### Steps
 1. Select **Source Folder**
-2. Tool auto-detects EXE/MSI
+2. Tool auto-detects EXE/MSI/PS1/BAT
 3. Choose output mode:
    - Same as source
    - Custom output folder
@@ -94,7 +94,7 @@ No PowerShell window required.
 ## 🧠 Auto Detection Behavior
 
 When selecting Source Folder:
-- Tool searches for `.exe` or `.msi`
+- Tool searches for `.exe` , `.msi` , `.ps1` or `.bat`
 - If found:
   - auto-selects installer
   - shows green SUCCESS message
@@ -137,7 +137,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 **Mohammad Abdulkader Omar**  
 Website: https://momar.tech  
-Version: **1.0**
+Version: **1.1**
 
 ---
 
