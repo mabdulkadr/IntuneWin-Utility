@@ -13,7 +13,7 @@ Convert EXE / MSI / PS1 / BAT installers into `.intunewin` packages using Micros
 ![Intune](https://img.shields.io/badge/Intune-Win32%20Apps-0078D4.svg)
 ![Version](https://img.shields.io/badge/version-1.1-green.svg)
 
-[Features](#-core-features) • [Usage](#-usage) • [Requirements](#️-requirements) • [Troubleshooting](#-troubleshooting)
+[Features](#-core-features) • [Usage](#-usage) • [After Packaging](#-after-packaging--upload-to-intune) • [Requirements](#️-requirements) • [FAQ](#-faq)
 
 </div>
 
@@ -22,6 +22,8 @@ Convert EXE / MSI / PS1 / BAT installers into `.intunewin` packages using Micros
 # 📖 Overview
 
 **IntuneWin Utility** is a modern GUI tool that creates **Intune Win32 packages (`.intunewin`)** from **EXE / MSI / PS1 / BAT** installers using Microsoft's official **IntuneWinAppUtil.exe** — with a clean UI, smart installer detection, and real-time logging.
+
+Instead of memorizing `IntuneWinAppUtil.exe -c <folder> -s <setup> -o <output>` syntax, you pick a source folder, confirm the detected installer, and click one button.
 
 ---
 
@@ -89,6 +91,44 @@ AppName.intunewin (45.3 MB)
 
 ---
 
+# 📁 Recommended Source Folder Layout
+
+One installer per Source folder keeps auto-detection unambiguous:
+
+```text
+Source\
+├── AppSetup.exe            # the installer (auto-detected)
+├── config.mst              # transforms / config files
+├── logo.png                # app icon for Intune
+└── readme.txt              # any extra content to ship
+```
+
+Everything in the Source folder is bundled into the `.intunewin` — keep only what the installation actually needs.
+
+---
+
+# 📤 After Packaging — Upload to Intune
+
+The `.intunewin` file is only half the story. To deploy it:
+
+1. Sign in to **Intune (Endpoint Manager)** → **Devices** → **Windows** → **Apps** → **Add**
+2. App type: **Windows app (Win32)** → select your `.intunewin` file
+3. Fill in **Name, Description, Publisher**
+4. Provide install/uninstall commands, for example:
+
+| Field | Example (EXE installer) |
+|---|---|
+| **Install command** | `AppSetup.exe /S` |
+| **Uninstall command** | `AppSetup.exe /S /uninstall` *(per the vendor's switches)* |
+| **Install behavior** | System or User — match the installer |
+
+5. Configure **Requirements** and **Detection rules** (e.g., file version or MSI product code)
+6. Assign to a pilot group first, then expand
+
+> 💡 The exact install/uninstall switches come from the **installer vendor**, not from this tool. Test them manually before assigning broadly.
+
+---
+
 # ⚙️ Requirements
 
 | Requirement | Details |
@@ -96,6 +136,7 @@ AppName.intunewin (45.3 MB)
 | **OS** | Windows 10 / 11 |
 | **PowerShell** | 5.1+ (packaged EXE needs no console) |
 | **IntuneWinAppUtil.exe** | Microsoft's official tool — must be available to the utility |
+| **Internet** | Not required for packaging; needed later for Intune upload |
 
 ### Working Structure
 
@@ -118,6 +159,27 @@ C:\IntuneWinUtility\
 | Installer not detected | Unsupported extension or wrong folder | Put an `.exe`/`.msi`/`.ps1`/`.bat` inside the Source folder |
 | Source folder validation fails | Path missing or installer outside it | Keep the installer inside the selected Source folder |
 | Create Package disabled | Another packaging job is running | Wait for the current job to finish |
+| Output size looks too large | Extra files in the Source folder | Remove unneeded content — everything in Source gets bundled |
+| Package fails to upload in Intune | Corrupt or empty source at package time | Re-package with the installer present and retest |
+
+---
+
+# ❓ FAQ
+
+**Q: What is a `.intunewin` file?**
+A: Microsoft's encrypted packaging format for Win32 apps in Intune. It wraps your installer plus its content so Intune can download and run it on managed devices.
+
+**Q: Where do I get IntuneWinAppUtil.exe?**
+A: It ships with Microsoft's official [Microsoft-Win32-Content-Prep-Tool](https://github.com/Microsoft/Microsoft-Win32-Content-Prep-Tool) repository on GitHub.
+
+**Q: Can I package an MSI with a transform (.mst)?**
+A: Yes — put the `.msi` and the `.mst` in the same Source folder; the transform is applied through your install command in Intune (e.g., `msiexec /i App.msi TRANSFORMS=config.mst /qn`).
+
+**Q: Does the tool upload anything to Intune?**
+A: No. It only creates the `.intunewin` file locally. Uploading to Intune is done through the Endpoint Manager portal (see After Packaging).
+
+**Q: PS1 scripts — do they run with any execution policy?**
+A: Intune runs Win32 app commands in its own context, bypassing the local execution policy for the script it invokes.
 
 ---
 
@@ -126,6 +188,7 @@ C:\IntuneWinUtility\
 * **Official tooling only** — packaging goes through Microsoft's own IntuneWinAppUtil; no third-party wrappers touch your installers
 * **Test before assigning** — upload the `.intunewin` to Intune as a pilot assignment first; verify install behavior on a test device
 * **Keep sources clean** — one installer per Source folder avoids ambiguity in auto-detection
+* **Vendor switches rule** — silent-install flags (`/S`, `/qn`, `/VERYSILENT`) come from the installer vendor; verify them in a manual run first
 * **Audit trail** — the daily log under `C:\IntuneWinUtility\` records every packaging run
 
 ---
