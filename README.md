@@ -75,10 +75,10 @@ IntuneWin-Utility/
 Double-click:
 
 ```text
-IntuneWin App Utility.exe
+IntuneWinAppUtil.exe
 ```
 
-No PowerShell window appears.
+That is Microsoft's packaging utility. The WPF front end is `IntuneWin Utility.ps1`; the `.exe` wrapper is not shipped under the name shown in older docs.
 
 ### Steps
 
